@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "/Users/Glenn/Desktop/ftc_app-master 3.4/TeamCode/build/intermediates/res/merged/debug/drawable/black_border.xml",
+        "source": "/Users/Glenn/.android/build-cache/8271f32badff37cbd67fdc9fb5c01b5767e0c1c4/output/res/drawable/black_border.xml"
+    },
+    {
+        "merged": "/Users/Glenn/Desktop/ftc_app-master 3.4/TeamCode/build/intermediates/res/merged/debug/drawable/button_shape.xml",
+        "source": "/Users/Glenn/.android/build-cache/0f14d6e88ab3d25c6adbddc9849dde3931db6882/output/res/drawable/button_shape.xml"
+    },
+    {
+        "merged": "/Users/Glenn/Desktop/ftc_app-master 3.4/TeamCode/build/intermediates/res/merged/debug/drawable/icon_robotcontroller.png",
+        "source": "/Users/Glenn/.android/build-cache/40088fb2e87b3127cb43adb5373beac1dc8159d6/output/res/drawable/icon_robotcontroller.png"
+    },
+    {
+        "merged": "/Users/Glenn/Desktop/ftc_app-master 3.4/TeamCode/build/intermediates/res/merged/debug/drawable/icon_menu.png",
+        "source": "/Users/Glenn/.android/build-cache/40088fb2e87b3127cb43adb5373beac1dc8159d6/output/res/drawable/icon_menu.png"
+    },
+    {
+        "merged": "/Users/Glenn/Desktop/ftc_app-master 3.4/TeamCode/build/intermediates/res/merged/debug/drawable/feedback_shape_orange.xml",
+        "source": "/Users/Glenn/.android/build-cache/ca57bf5366f635690c323aacd8cf8bcdd566bf31/output/res/drawable/feedback_shape_orange.xml"
+    }
+]
