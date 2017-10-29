@@ -30,16 +30,41 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
 
  */
+/**This is our 2017-2018 code
+ We are using Mecanum wheels for this years robot
+ To drive forward/backward, you just power all the wheels forward/backward.
+ To turn right, you power the right wheels backward and the left wheels forward, just like normal wheels.
+ (Turning left is the same idea.)
 
-@Autonomous(name="RIP2017bot: Auto Drive By Time", group="RIP2017bot")
-@Disabled
+ To move sideways right, move the front-left and back-right wheels forward, and the others backward.
+
+ Now we have this table:
+
+             FORWARD(+x) BACKWARD(-x)    SIDEWAYS RIGHT(+y)  SIDEWAY LEFT(-y)    TURN RIGHT(+r)  TURN LEFT(-r)
+ front left      +           -                 +                   -                 +               -
+ front right     +           -                 -                   +                 -               +
+ back left       +           -                 -                   +                 +               -
+ back right      +           -                 +                   -                 -               +
+
+ And we can convert this table to an algorithm:
+
+ inputs: x, y, and r
+
+ flPower = + x + y + r
+ frPower = + x - y - r
+ blPower = + x - y + r
+ brPower = + x + y - r
+ **/
+
+
+@Autonomous(name="RIP2017bot_AutoTime: Auto Drive By Time", group="RIP2017bot_AutoTime")
+//@Disabled
 public class RIP2017AutoDriveByTime_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -47,8 +72,10 @@ public class RIP2017AutoDriveByTime_Linear extends LinearOpMode {
     private ElapsedTime     runtime = new ElapsedTime();
 
 
-    static final double     FORWARD_SPEED = 0.6;
-    static final double     TURN_SPEED    = 0.5;
+    static final double     flPower = 0.25;
+    static final double     frPower = 0.25;
+    static final double     blPower = 0.25;
+    static final double     brPower = 0.25;
 
     @Override
     public void runOpMode() {
@@ -69,10 +96,10 @@ public class RIP2017AutoDriveByTime_Linear extends LinearOpMode {
         // Step through each leg of the path, ensuring that the Auto mode has not been stopped along the way
 
         // Step 1:  Drive forward for 3 seconds
-        robot.leftFrontDrive.setPower(FORWARD_SPEED);
-        robot.rightFrontDrive.setPower(FORWARD_SPEED);
-        robot.leftRearDrive.setPower(FORWARD_SPEED);
-        robot.rightRearDrive.setPower(FORWARD_SPEED);
+        robot.leftFrontDrive.setPower(flPower);
+        robot.rightFrontDrive.setPower(frPower);
+        robot.leftRearDrive.setPower(blPower);
+        robot.rightRearDrive.setPower(brPower);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 3.0)) {
             telemetry.addData("Path", "Leg 1: %2.5f S Elapsed", runtime.seconds());
@@ -80,10 +107,10 @@ public class RIP2017AutoDriveByTime_Linear extends LinearOpMode {
         }
 
         // Step 2:  Spin right for 1.3 seconds
-        robot.leftFrontDrive.setPower(TURN_SPEED);
-        robot.rightFrontDrive.setPower(-TURN_SPEED);
-        robot.leftRearDrive.setPower(TURN_SPEED);
-        robot.rightRearDrive.setPower(-TURN_SPEED);
+        robot.leftFrontDrive.setPower(flPower);
+        robot.rightFrontDrive.setPower(-frPower);
+        robot.leftRearDrive.setPower(blPower);
+        robot.rightRearDrive.setPower(-brPower);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.3)) {
             telemetry.addData("Path", "Leg 2: %2.5f S Elapsed", runtime.seconds());
@@ -91,10 +118,10 @@ public class RIP2017AutoDriveByTime_Linear extends LinearOpMode {
         }
 
         // Step 3:  Drive Backwards for 1 Second
-        robot.leftFrontDrive.setPower(-FORWARD_SPEED);
-        robot.rightFrontDrive.setPower(-FORWARD_SPEED);
-        robot.leftRearDrive.setPower(-FORWARD_SPEED);
-        robot.rightRearDrive.setPower(-FORWARD_SPEED);
+        robot.leftFrontDrive.setPower(-flPower);
+        robot.rightFrontDrive.setPower(-frPower);
+        robot.leftRearDrive.setPower(-blPower);
+        robot.rightRearDrive.setPower(-brPower);
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds() < 1.0)) {
             telemetry.addData("Path", "Leg 3: %2.5f S Elapsed", runtime.seconds());

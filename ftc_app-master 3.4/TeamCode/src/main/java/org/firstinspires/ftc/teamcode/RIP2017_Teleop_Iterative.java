@@ -27,27 +27,53 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**This is our 2017-2018 code
+        We are using Mecanum wheels for this years robot
+        To drive forward/backward, you just power all the wheels forward/backward.
+        To turn right, you power the right wheels backward and the left wheels forward, just like normal wheels.
+        (Turning left is the same idea.)
+
+        To move sideways right, move the front-left and back-right wheels forward, and the others backward.
+
+        Now we have this table:
+
+        FORWARD(+x) BACKWARD(-x)    SIDEWAYS RIGHT(+y)  SIDEWAY LEFT(-y)    TURN RIGHT(+r)  TURN LEFT(-r)
+        front left      +           -                 +                   -                 +               -
+        front right     +           -                 -                   +                 -               +
+        back left       +           -                 -                   +                 +               -
+        back right      +           -                 +                   -                 -               +
+
+        And we can convert this table to an algorithm:
+
+        inputs: x, y, and r
+
+        flPower = + x + y + r
+        frPower = + x - y - r
+        blPower = + x - y + r
+        brPower = + x + y - r
+**/
+
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 
-/**
- * This file provides basic Telop driving for a Pushbot robot.
- * The code is structured as an Iterative OpMode
+import static java.lang.Math.abs;
+
+/**  This file provides basic Telop driving for a Pushbot robot.
+  The code is structured as an Iterative OpMode
+
+  This OpMode uses the common Pushbot hardware class to define the devices on the robot.
+  All device access is managed through the HardwarePushbot class.
+
+  This particular OpMode executes a basic Tank Drive Teleop for a PushBot
+  It raises and lowers the claw using the Gampad Y and A buttons respectively.
+  It also opens and closes the claws slowly using the left and right Bumper buttons.
+
+  Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
+  Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  *
- * This OpMode uses the common Pushbot hardware class to define the devices on the robot.
- * All device access is managed through the HardwarePushbot class.
- *
- * This particular OpMode executes a basic Tank Drive Teleop for a PushBot
- * It raises and lowers the claw using the Gampad Y and A buttons respectively.
- * It also opens and closes the claws slowly using the left and right Bumper buttons.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
 
 /**
  * This file provides basic Telop driving for a 2017-2018 Robots In Paradise robot.
@@ -66,10 +92,36 @@ import com.qualcomm.robotcore.util.Range;
  * It opens and closes the claws slowly using the Gamepad2 dpad_up and dpad_down repectively.
  * gamepad2.dpad_up gamepad2.dpad_down
  *
- */
+
+/**This is our 2017-2018 code
+ We are using Mecanum wheels for this years robot
+ To drive forward/backward, you just power all the wheels forward/backward.
+ To turn right, you power the right wheels backward and the left wheels forward, just like normal wheels.
+ (Turning left is the same idea.)
+
+ To move sideways right, move the front-left and back-right wheels forward, and the others backward.
+
+ Now we have this table:
+
+ FORWARD(+x) BACKWARD(-x)    SIDEWAYS RIGHT(+y)  SIDEWAY LEFT(-y)    TURN RIGHT(+r)  TURN LEFT(-r)
+ front left      +           -                 +                   -                 +               -
+ front right     +           -                 -                   +                 -               +
+ back left       +           -                 -                   +                 +               -
+ back right      +           -                 +                   -                 -               +
+
+ And we can convert this table to an algorithm:
+
+ inputs: x, y, and r
+
+ flPower = + x + y + r
+ frPower = + x - y - r
+ blPower = + x - y + r
+ brPower = + x + y - r
+ **/
+
 
 @TeleOp(name="RIP2017bot: Teleop", group="RIP2017bot")
-@Disabled
+
 public class RIP2017_Teleop_Iterative extends OpMode{
 
     /* Declare OpMode members. */
@@ -116,25 +168,49 @@ public class RIP2017_Teleop_Iterative extends OpMode{
         double leftEW;
         double rightEW;
 
-        // Use gamepad 1 joysticks vertical axis to drive forward or reverse
+        // Use gamepad 1 joystick left vertical axis to drive forward or reverse
         // Run wheels in forward mode (note: The joystick goes negative when pushed forwards, so negate it)
-        leftNS = -gamepad1.left_stick_y;
-        rightNS = -gamepad1.right_stick_y;
 
-        robot.leftFrontDrive.setPower(leftNS);
-        robot.rightFrontDrive.setPower(rightNS);
-        robot.leftRearDrive.setPower(leftNS);
-        robot.rightRearDrive.setPower(rightNS);
-
-        // Use gamepad 1 yoysticks horizontal axis to drive left or right
+        // Use gamepad 1 joystick left horizontal axis to drive left or right
         // Run wheels in forward mode (note: The joystick goes negative when pushed forwards, so negate it)
-        leftEW = -gamepad1.left_stick_x;
-        rightEW = -gamepad1.right_stick_x;
 
-        robot.leftFrontDrive.setPower(leftEW);
-        robot.rightFrontDrive.setPower(rightEW);
-        robot.leftRearDrive.setPower(leftEW);
-        robot.rightRearDrive.setPower(rightEW);
+        // Use gamepad 1 joystick right horizontal axis to turn left or right
+
+        double frontLeft;
+        double frontRight;
+        double rearLeft;
+        double rearRight;
+
+        double x;
+        double y;
+        double z;
+
+        x = -gamepad1.left_stick_y;
+        y = -gamepad1.left_stick_x;
+        z = -gamepad1.right_stick_x;
+
+        if (abs(x) < 0.1)
+        {
+            x = 0;
+        }
+        if (abs(y) < 0.1)
+        {
+            y = 0;
+        }
+        if (abs(z) < 0.1)
+        {
+            z = 0;
+        }
+
+        frontLeft = (x + y + z)/3;
+        frontRight = (x - y - z)/3;
+        rearLeft = (x - y + z)/3;
+        rearRight = (x + y -z)/3;
+
+        robot.leftFrontDrive.setPower(frontLeft);
+        robot.rightFrontDrive.setPower(frontRight);
+        robot.leftRearDrive.setPower(rearLeft);
+        robot.rightRearDrive.setPower(rearRight);
 
         // Use gamepad2 dpadto open and close the claw
         if (gamepad2.dpad_up)
@@ -157,10 +233,10 @@ public class RIP2017_Teleop_Iterative extends OpMode{
 
         // Send telemetry message to signify robot running;
         telemetry.addData("claw",  "Offset = %.2f", clawOffset);
-        telemetry.addData("leftNS",  "%.2f", leftNS);
-        telemetry.addData("rightNS", "%.2f", rightNS);
-        telemetry.addData("leftNS",  "%.2f", leftEW);
-        telemetry.addData("rightNS", "%.2f", rightEW);
+        telemetry.addData("leftRear",  "%.2f", robot.leftRearDrive.getPower());
+        telemetry.addData("rightRear", "%.2f", robot.rightRearDrive.getPower());
+        telemetry.addData("leftFront",  "%.2f", robot.leftFrontDrive.getPower());
+        telemetry.addData("rightFront", "%.2f", robot.rightFrontDrive.getPower());
     }
 
     /*

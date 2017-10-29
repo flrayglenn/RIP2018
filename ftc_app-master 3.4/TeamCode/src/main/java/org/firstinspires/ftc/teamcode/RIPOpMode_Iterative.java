@@ -56,7 +56,6 @@ brPower = + x + y - r
  */
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -66,7 +65,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="RIPBasic: Iterative OpMode", group="Iterative Opmode")
-@Disabled
+
 public class RIPOpMode_Iterative extends OpMode
 {
     // Declare OpMode members.

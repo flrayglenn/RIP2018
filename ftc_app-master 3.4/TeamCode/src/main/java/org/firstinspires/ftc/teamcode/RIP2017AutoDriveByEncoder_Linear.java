@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -38,8 +37,35 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  */
 
+/**This is our 2017-2018 code
+ We are using Mecanum wheels for this years robot
+ To drive forward/backward, you just power all the wheels forward/backward.
+ To turn right, you power the right wheels backward and the left wheels forward, just like normal wheels.
+ (Turning left is the same idea.)
+
+ To move sideways right, move the front-left and back-right wheels forward, and the others backward.
+
+ Now we have this table:
+
+ FORWARD(+x) BACKWARD(-x)    SIDEWAYS RIGHT(+y)  SIDEWAY LEFT(-y)    TURN RIGHT(+r)  TURN LEFT(-r)
+ front left      +           -                 +                   -                 +               -
+ front right     +           -                 -                   +                 -               +
+ back left       +           -                 -                   +                 +               -
+ back right      +           -                 +                   -                 -               +
+
+ And we can convert this table to an algorithm:
+
+ inputs: x, y, and r
+
+ flPower = + x + y + r
+ frPower = + x - y - r
+ blPower = + x - y + r
+ brPower = + x + y - r
+ **/
+
+
 @Autonomous(name="RIP2017bot: Auto Drive By Encoder", group="RIP2017bot")
-@Disabled
+
 public class RIP2017AutoDriveByEncoder_Linear extends LinearOpMode {
 
     /* Declare OpMode members. */

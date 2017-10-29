@@ -49,6 +49,10 @@ public class HardwareRIP
     public static final double MID_SERVO       =  0.5 ;
     public static final double LIFT_UP_POWER    =  0.45 ;
     public static final double LIFT_DOWN_POWER  = -0.45 ;
+    public static final double EXTEND_MID_POWER = 0.45;
+    public static final double RETRACT_MID_POWER = -0.45;
+    public static final double EXTEND_BOTTOM_POWER = 0.45;
+    public static final double RETRACT_BOTTOM_POWER = -0.45;
 
     /* local OpMode members. */
     HardwareMap hwMap           =  null;
